@@ -1,0 +1,24 @@
+<!-- Extract the description from the HTML -->
+{{ $content := .Content }}
+{{ $regEx := "" }}
+{{ $regEx1 := "" }}
+{{ $regEx2 := "" }}
+{{ $summary := "" }}
+
+{{ $summary := "" }}
+{{ if hasPrefix .Href "https://www.reddit.com" }}
+  <!-- for reddit -->
+  {{ $regEx = `<protected-community-modal\s+[^>]*\bsubredditDescription=["']([^"']+)["']?[^>]*>` }}
+  {{ $summary = partial "pretty-link/functions/extract-html-value.html" (dict "RegEx" $regEx "Content" $content) | safeHTML }}
+{{ else }}
+  {{ $regEx1 = `<meta[^>]*name="description"[^>]*>` }}
+  {{ $regEx2 = `content=["']?([^"'>]+)["']?` }}
+  {{ $summary = partial "pretty-link/functions/extract-html-value-two.html" (dict "RegEx1" $regEx1 "RegEx2" $regEx2 "Content" $content) | plainify }}
+
+  {{ if eq $summary "" }}
+    {{ $regEx = `<meta\s+[^>]*\bproperty=["']?og:description["']?[^>]*\bcontent=["']([^"']+)["']?[^>]*>` }}
+    {{ $summary = partial "pretty-link/functions/extract-html-value.html" (dict "RegEx" $regEx "Content" $content) | safeHTML }}
+  {{ end }}
+{{ end }}
+
+{{ return $summary }}

@@ -1,0 +1,20 @@
+<!-- Find the Title in the order of the title tag, followed by og:title. -->
+{{ $content := .Content }}
+{{ $regEx := "" }}
+{{ $title := "" }}
+
+{{ if hasPrefix .Href "https://www.reddit.com" }}
+  <!-- for reddit -->
+  {{ $regEx = `<shreddit-title\s+[^>]*\btitle=["']([^"']+)["']?[^>]*>` }}
+  {{ $title = partial "pretty-link/functions/extract-html-value.html" (dict "RegEx" $regEx "Content" $content) | safeHTML }}
+{{ else }}
+  {{ $regEx = `<title>(.*?)</title>` }}
+  {{ $title = partial "pretty-link/functions/extract-html-value.html" (dict "RegEx" $regEx "Content" $content) | plainify }}
+
+  {{ if eq $title "" }}
+    {{ $regEx = `<meta\s+[^>]*\bproperty=["']og:title["'][^>]*\bcontent=["']([^"']+)["']?[^>]*>` }}
+    {{ $title = partial "pretty-link/functions/extract-html-value.html" (dict "RegEx" $regEx "Content" $content) | safeHTML }}
+  {{ end }}
+{{ end }}
+
+{{ return $title }}

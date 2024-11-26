@@ -1,0 +1,54 @@
+{{ $theme := .Site.Params.pretty_link.theme }}
+
+{{ $opts := dict
+  "headers" (dict "User-Agent" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+}}
+{{ $html := resources.GetRemote .Href $opts }}
+{{ $content := $html.Content }}
+
+{{ $regEx := "" }}
+{{ $regEx1 := "" }}
+{{ $regEx2 := "" }}
+
+{{ $title := partial "pretty-link/functions/get-title.html" (dict "Content" $content) }}
+{{ $summary := partial "pretty-link/functions/get-description.html" (dict "Content" $content) }}
+
+
+<!-- If it's GitHub, use the fluidicon and modify the description. -->
+{{ if hasPrefix .Href "https://github.com" }}
+  {{ partial (printf "pretty-link/themes/%s/thumbnail-link.html" $theme) (dict "Permalink" .Href "Title" $title "Summary" $summary "ThumbnailLink" "https://github.com/fluidicon.png" "FaviconLink" "https://github.com/fluidicon.png" "ImageSizeMode" "Resize") }}
+{{ else }}
+  <!-- Fetches the site's favicon, thumbnail, and other information. -->
+  {{ $info := partial "pretty-link/functions/get-site-info.html" (dict "Content" $content) }}
+  {{ $layout := $info.layout }}
+  {{ $imageResizeMode := $info.imageResizeMode }}
+  {{ $thumbnail := $info.thumbnail }}
+  {{ $favicon := $info.favicon }}
+
+
+  <!-- Convert the path to an absolute path if it is a relative path. -->
+  {{ $thumbnailURL := partial "pretty-link/functions/transform-url.html" (dict "Path" $thumbnail "Href" .Href) }}
+  {{ $faviconURL := partial "pretty-link/functions/transform-url.html" (dict "Path" $favicon "Href" .Href) }}
+
+
+  <!-- For favicons, use simple-link, and for others, use thumbnail-link -->
+  {{ if eq $layout "thumbnail" }}
+    {{ partial (printf "pretty-link/themes/%s/thumbnail-link.html" $theme) (dict
+      "Permalink" .Href
+      "Title" $title
+      "Summary" $summary
+      "ThumbnailLink" $thumbnailURL
+      "FaviconLink" $faviconURL
+      "ImageSizeMode" $imageResizeMode
+      )
+    }}
+  {{ else }}
+    {{ partial (printf "pretty-link/themes/%s/simple-link.html" $theme) (dict
+      "Permalink" .Href
+      "Title" $title
+      "Summary" $summary
+      "FaviconLink" $faviconURL
+      )
+    }}
+  {{ end }}
+{{ end }}

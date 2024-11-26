@@ -1,0 +1,17 @@
+<!-- `extract-html-value.html` is used when the order of attributes in the tag does not matter.
+`extract-html-value-two.html` first locates the tag and then searches for the attribute again. -->
+{{ $re1 := .RegEx1 }}
+{{ $re2 := .RegEx2 }}
+{{ $content := .Content }}
+{{ $value := "" }}
+{{ $matches := findRE $re1 $content }}
+
+{{ if gt (len $matches) 0 }}
+  {{ $tag := index $matches 0 }}
+  {{ $tagMatches := findRESubmatch $re2 $tag }}
+  {{ if gt (len $tagMatches) 0 }}
+    {{ $value = index (index $tagMatches 0) 1 }}
+  {{ end }}
+{{ end }}
+
+{{ return $value }}

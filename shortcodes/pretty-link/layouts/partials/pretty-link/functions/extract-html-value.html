@@ -1,0 +1,11 @@
+<!-- Return the value matched by the regular expression. -->
+{{ $re := .RegEx }}
+{{ $content := .Content }}
+{{ $value := "" }}
+{{ $matches := findRESubmatch $re $content }}
+
+{{ if gt (len $matches) 0 }}
+  {{ $value = index (index $matches 0) 1 }}
+{{ end }}
+
+{{ return $value }}

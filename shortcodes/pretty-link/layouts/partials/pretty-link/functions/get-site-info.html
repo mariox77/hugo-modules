@@ -1,0 +1,53 @@
+<!-- For other sites, look for the og:image first, then the apple-touch-icon -->
+{{ $content := .Content }}
+{{ $regEx := "" }}
+{{ $regEx1 := "" }}
+{{ $regEx2 := "" }}
+{{ $layout := "simple" }}
+{{ $imageResizeMode := "Cover" }}
+{{ $thumbnail := "" }}
+{{ $favicon := "" }}
+
+
+<!-- Look for the favicon -->
+{{ $regEx1 = `<link[^>]*\brel=["']?icon["']?[^>]*[^>]*>` }}
+{{ $regEx2 = `href=["']?([^"'>\s+]+)["']?` }}
+{{ $favicon := partial "pretty-link/functions/extract-html-value-two.html" (dict "RegEx1" $regEx1 "RegEx2" $regEx2 "Content" $content) }}
+
+
+<!-- Look for the og:image -->
+{{ $regEx1 = `<meta\s+[^>]*\bproperty=["']og:image["'][^>]*>` }}
+{{ $regEx2 = `content=["']([^"']+)["']?` }}
+{{ $thumbnail := partial "pretty-link/functions/extract-html-value-two.html" (dict "RegEx1" $regEx1 "RegEx2" $regEx2 "Content" $content) }}
+{{ if ne $thumbnail "" }}
+  {{ $layout = "thumbnail" }}
+{{ end }}
+
+
+<!-- If $thumbnail is not set, look for the apple-touch-icon -->
+{{ $regEx1 = `<link[^>]*\brel=["']?apple-touch-icon["']?[^>]*>` }}
+{{ $regEx2 =  `href=["']?([^"'\s>]+)["']?` }}
+{{ $appleTouchIcon := partial "pretty-link/functions/extract-html-value-two.html" (dict "RegEx1" $regEx1 "RegEx2" $regEx2 "Content" $content) }}
+
+{{ if ne $appleTouchIcon "" }}
+  {{ $favicon = cond (eq $favicon "") $appleTouchIcon $favicon }}
+  {{ if eq $thumbnail "" }}
+    {{ $thumbnail = $appleTouchIcon }}
+    {{ $imageResizeMode = "Resize" }}
+  {{ end }}
+  {{ $layout = "thumbnail" }}
+{{ end }}
+
+
+<!-- If no favicon is provided, the default value is set to `favicon.ico`. -->
+{{ if eq $favicon "" }}
+  {{ $favicon = "/favicon.ico" }}
+{{ end }}
+
+{{ return (dict
+  "layout" $layout
+  "imageResizeMode" $imageResizeMode
+  "thumbnail" $thumbnail
+  "favicon" $favicon
+  )
+}}

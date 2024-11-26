@@ -1,0 +1,23 @@
+<!-- Combine the baseURL and the Path of the full URL (as the Path may be a relative path). -->
+
+{{ $path := .Path }}
+{{ $href := .Href }}
+{{ $url := "" }}
+
+{{ if hasPrefix $path "http" }}
+  {{ $url = $path }}
+{{ else }}
+  {{ if (hasPrefix $path "/") }}
+    {{ $parsedURL := urls.Parse .Href }}
+    {{ $baseURL := print $parsedURL.Scheme "://" $parsedURL.Host }}
+    {{ $url = print $baseURL $path }}
+  {{ else }}
+    {{ $parsedURL := urls.Parse .Href }}
+    {{ $basePath := $parsedURL.Path | path.Dir }}
+    {{ $resolvedPath := path.Join $basePath $path }}
+    {{ $absolutePath := path.Clean $resolvedPath }}
+    {{ $url = print $parsedURL.Scheme "://" $parsedURL.Host $absolutePath }}
+  {{ end }}
+{{ end }}
+
+{{ return $url }}

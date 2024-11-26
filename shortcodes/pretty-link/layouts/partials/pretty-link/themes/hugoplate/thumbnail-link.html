@@ -1,0 +1,56 @@
+<!--
+Variables
+
+- Permalink: URL
+- Title: Site or blog's title
+- Summary: Site's description or blog's article summary
+- ThumbnailLink: Image URL
+- FaviconLink: Favicon URL
+- ImageSizeMode: Resize | Cover
+-->
+<a href="{{ .Permalink }}" class="no-underline text-black">
+  <div
+    class="group flex flex-col md:flex-row h-96 md:h-32 border
+          bg-theme-light/40 hover:bg-white
+          dark:border-darkmode-border dark:bg-darkmode-theme-light hover:dark:bg-darkmode-border
+          shadow hover:shadow-md
+          rounded-md overflow-clip transform duration-300 md:mx-4">
+    <img
+      class="w-full bg-gray-100 dark:bg-dark md:w-60 md:min-w-60 h-64 max-h-64 flex-grow-0 group-hover:scale-105 m-0 !mb-0 !rounded-none transform duration-300
+        {{ if eq .ImageSizeMode "Cover" }}
+        object-cover
+      {{ else if eq .ImageSizeMode "Resize" }}
+        object-scale-down p-3
+      {{ end }}"
+      src="{{ .ThumbnailLink }}"
+      alt="{{ .ThumbnailLink }}"
+      onerror="this.src='https://mixcode.cc/images/pretty-link-fallback/thumbnail.jpg';this.onerror=null;" />
+    <div class="flex-1 flex flex-col px-4 py-2 justify-center h-full gap-y-1">
+      <div
+        class="flex-0 flex items-center font-bold text-base text-text dark:text-darkmode-text line-clamp-1 w-full">
+        {{ if .FaviconLink }}
+          <img
+            class="flex-shrink-0 m-0 !mb-0 w-5 !h-5"
+            src="{{ .FaviconLink }}"
+            onerror="this.src='https://mixcode.cc/images/pretty-link-fallback/favicon.png';this.onerror=null;" />
+        {{ end }}
+        <span
+          class="{{ if .FaviconLink }}
+            pl-2
+          {{ end }} font-bold text-base text-text dark:text-darkmode-text line-clamp-1"
+          >{{ .Title }}</span
+        >
+      </div>
+      <div class="flex-1">
+        <span
+          class="text-sm text-text dark:text-darkmode-text line-clamp-2 md:leading-6 opacity-90">
+          {{ .Summary }}
+        </span>
+      </div>
+      <span
+        class="flex-0 text-sm md:text-xs text-light/50 md:max-w-96 line-clamp-1 place-self-end text-right"
+        >{{ .Permalink }}</span
+      >
+    </div>
+  </div>
+</a>

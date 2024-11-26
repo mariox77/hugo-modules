@@ -1,0 +1,40 @@
+<!--
+Variables
+
+- Permalink: URL
+- Title: Site or blog's title
+- Summary: Site's description or blog's article summary
+- FaviconLink:  Favicon URL
+- ImageSizeMode: Resize | Cover
+-->
+<a href="{{ .Permalink }}" class="no-underline text-black">
+  <div
+    class="group flex flex-col md:flex-row h-32 md:h-32 border
+          bg-theme-light/40 hover:bg-white
+          dark:border-darkmode-border dark:bg-darkmode-theme-light hover:dark:bg-darkmode-border
+          shadow-sm hover:shadow-md
+          rounded-md overflow-clip transform duration-300 md:mx-4">
+    <div class="flex flex-col px-4 py-2 justify-center h-full w-full">
+      <div class="flex-1 flex items-center">
+        <img
+          class="m-0 !mb-0 w-5 h-5"
+          src="{{ .FaviconLink }}"
+          onerror="this.src='https://mixcode.cc/images/pretty-link-fallback/favicon.png';this.onerror=null;" />
+        <span
+          class="pl-2 font-bold text-base text-text dark:text-darkmode-text line-clamp-1"
+          >{{ .Title }}</span
+        >
+      </div>
+      <div class="flex-1 pb-2">
+        <span
+          class="text-sm text-text dark:text-darkmode-text line-clamp-2 md:leading-5 opacity-90">
+          {{ .Summary }}
+        </span>
+      </div>
+      <span
+        class="flex-0 text-sm md:text-xs text-light/50 md:max-w-96 line-clamp-1 place-self-end text-right"
+        >{{ .Permalink }}</span
+      >
+    </div>
+  </div>
+</a>

@@ -1,0 +1,25 @@
+{{ $theme := .Site.Params.pretty_link.theme }}
+{{ $page := .Site.GetPage .Href }}
+
+{{ if $page }}
+  {{ $permalink := $page.RelPermalink }}
+  {{ $title := $page.Title }}
+  {{ $summary := $page.Summary | plainify }}
+  {{ $thumbnail := $page.Resources.Get $page.Params.image | default (resources.Get $page.Params.image) }}
+  {{ $resizedImage := $thumbnail.Resize "0x256" }}
+  {{ $thumbnailLink := $resizedImage.RelPermalink }}
+  {{ $favicon := resources.Get .Site.Params.favicon }}
+  {{ $faviconLink := $favicon.Permalink }}
+
+  {{ partial (printf "pretty-link/themes/%s/thumbnail-link.html" $theme) (dict
+    "Permalink" $permalink
+    "Title" $title
+    "Summary" $summary
+    "ThumbnailLink" $thumbnailLink
+    "FaviconLink" $faviconLink
+    "ImageSizeMode" "Cover"
+    )
+  }}
+{{ else }}
+  <span>{{ errorf "pretty-link: '%s' cannot be found." .Href }}</span>
+{{ end }}

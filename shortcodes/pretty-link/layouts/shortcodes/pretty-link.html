@@ -1,0 +1,7 @@
+{{- $href := .Get "href" -}}
+
+{{ if hasPrefix $href "/" }}
+  {{ partial "pretty-link/internal.html" (dict "Href" $href "Site" .Site) }}
+{{ else }}
+  {{ partial "pretty-link/external.html" (dict "Href" $href "Site" .Site) }}
+{{ end }}
