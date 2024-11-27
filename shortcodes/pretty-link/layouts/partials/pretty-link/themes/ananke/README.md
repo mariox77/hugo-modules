@@ -41,13 +41,14 @@ path = "github.com/mariox77/hugo-modules/shortcodes/pretty-link"
   border: 1px solid #e5e7eb;
   background-color: rgba(243, 244, 246, 0.4);
   overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   max-width: 100%;
 }
 
 .card:hover {
   background-color: #ffffff;
+  transition: background-color 0.3s;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
