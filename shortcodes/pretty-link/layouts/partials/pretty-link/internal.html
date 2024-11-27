@@ -9,7 +9,11 @@
   {{ $resizedImage := $thumbnail.Resize "0x256" }}
   {{ $thumbnailLink := $resizedImage.RelPermalink }}
   {{ $favicon := resources.Get .Site.Params.favicon }}
-  {{ $faviconLink := $favicon.Permalink }}
+  {{ $faviconLink := "/favicon.ico" }}
+
+  {{ if $favicon}}
+    {{ $faviconLink = $favicon.Permalink }}
+  {{ end }}
 
   {{ partial (printf "pretty-link/themes/%s/thumbnail-link.html" $theme) (dict
     "Permalink" $permalink
