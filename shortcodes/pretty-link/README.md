@@ -44,3 +44,7 @@ Using `hugoplate` as an example, the paths are:
 Create the files in the local directory and find the corresponding file in this repository to copy and paste its contents.
 
 Modify the two files to match the theme you are currently using. If you believe the changes you made to the theme could benefit other users, please submit a Pull Request.
+
+**Supported themes:**
+- Ananke: [Docs](./themes/ananke/README.md)
+- Hugoplate
