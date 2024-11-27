@@ -1,5 +1,7 @@
 # PrettyLink Shortcode
 
+Live Demo: https://hugoplate-pretty-link.pages.dev/blog/introduce-pretty-link/
+
 ## Install Module
 
 Add the following code to your module list in the `config/_default/module.toml` file.
