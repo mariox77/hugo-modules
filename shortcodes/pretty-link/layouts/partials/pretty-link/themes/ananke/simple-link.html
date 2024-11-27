@@ -1,0 +1,29 @@
+<!--
+Variables
+
+- Permalink: URL
+- Title: Site or blog's title
+- Summary: Site's description or blog's article summary
+- FaviconLink: Favicon URL
+- ImageSizeMode: Resize | Cover
+-->
+<a href="{{ .Permalink }}" class="anchor-card">
+    <div class="card">
+      <div class="content">
+        <div class="title-wrapper">
+          {{ if .FaviconLink }}
+          <img
+            class="favicon"
+            src="{{ .FaviconLink }}"
+            onerror="this.src='https://mixcode.cc/images/pretty-link-fallback/favicon.png';this.onerror=null;"
+          />
+          {{ end }}
+          <span class="title">{{ .Title }}</span>
+        </div>
+        <div class="summary-wrapper">
+          <div class="summary">{{ .Summary }}</div>
+        </div>
+        <span class="permalink">{{ .Permalink }}</span>
+      </div>
+    </div>
+  </a>
