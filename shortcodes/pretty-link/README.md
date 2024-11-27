@@ -9,69 +9,38 @@ Add the following code to your module list in the `config/_default/module.toml` 
 path = "github.com/mariox77/hugo-modules/shortcodes/pretty-link"
 ```
 
+Add the following code to the `config/_default/params.toml` file.
+
+```toml
+# pretty_link
+[pretty_link]
+theme = "hugoplate"
+```
+
+> Refer [here](https://github.com/mariox77/hugo-modules/blob/main/shortcodes/pretty-link/README.md#customize-look-and-feel) for instructions on how to apply it to other themes.
+
 ## Shortcode Implementation
 
 Available parameters:
 
 - href: Hugo internal post or external URL
 
-## Customize look and feel
+## Customize look and feel (eg. theme)
 
-The two files are card layouts for links:
+Views must be different for each theme in Hugo.
 
-- `layouts/partials/pretty-link/simple-link.html`: A simple link view with Favicon, Title, and Description.
-- `layouts/partials/pretty-link/thumbnail-link.html`: A card view with Thumbnail, Title, and Description.
+Currently, I have included default support for `Hugoplate`'s Bigfan. (However, since I'm not a CSS expert, the quality might be somewhat lacking.)
 
-```html
-Example1
+There are two files responsible for the view:
+- `simple-link.html`: A simple card displaying only the title and summary.
+- `thumbnail-link.htm`l: A card layout displaying the thumbnail, title, and summary.
 
-{{< pretty-link href="https://github.com/blampe/goat" >}}
+Based on the theme set in `pretty_link.theme`, please create these files accordingly.
 
-Example2
+Using `hugoplate` as an example, the paths are:
+- `layouts/partials/pretty-link/themes/hugoplate/simple-link.html`
+- `layouts/partials/pretty-link/themes/hugoplate/thumbnail-link.html`
 
-{{< pretty-link href="https://tailwindcss.com/docs/object-fit" >}}
+Create the files in the local directory and find the corresponding file in this repository to copy and paste its contents.
 
-Example3
-
-{{< pretty-link href="https://docs.aws.amazon.com/ko_kr/pricing-calculator/latest/userguide/what-is-pricing-calculator.html" >}}
-
-Example4
-
-{{< pretty-link href="/blog/post-2" >}}
-
-Example5
-
-{{< pretty-link href="/blog/post" >}}
-
-Example6
-
-{{< pretty-link href="https://golang-jwt.github.io/jwt/usage/signing_methods/#signing-methods-and-key-types" >}}
-
-Example7
-
-{{< pretty-link href="https://medium.com/@arnaudrinquin/build-modular-application-with-npm-local-modules-dfc5ff047bcc" >}}
-
-Example8
-
-{{< pretty-link href="https://h2s1880.medium.com/ios-android-declarative-ui-programming-%EB%B0%A9%EC%8B%9D%EC%9D%B4-%EA%B0%80%EC%A0%B8%EC%98%A8-%EB%B3%80%ED%99%94%EB%93%A4-f61896275110" >}}
-
-Example9
-
-{{< pretty-link href="https://gohugo.io/functions/transform/htmlunescape/" >}}
-
-Example10
-
-{{< pretty-link href="https://regex101.com/">}}
-
-Example11
-
-{{< pretty-link href="https://firebase.google.com/pricing?hl=ko">}}
-
-Example12
-
-{{< pretty-link href="https://go.dev/" >}}
-
-Example13
-
-{{< pretty-link href="https://ko.wix.com/blog/post/what-is-favicon-how-to-make" >}}
-```
+Modify the two files to match the theme you are currently using. If you believe the changes you made to the theme could benefit other users, please submit a Pull Request.
