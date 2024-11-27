@@ -17,8 +17,6 @@ Add the following code to the `config/_default/params.toml` file.
 theme = "hugoplate"
 ```
 
-> Refer [here](https://github.com/mariox77/hugo-modules/blob/main/shortcodes/pretty-link/README.md#customize-look-and-feel) for instructions on how to apply it to other themes.
-
 ## Shortcode Implementation
 
 Available parameters:
